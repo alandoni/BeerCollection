@@ -49,6 +49,7 @@ export const login = (email, password) => {
       const user = await firebase.auth().signInWithEmailAndPassword(email, password);
       dispatch(loginAction(user))
     } catch (error) {
+      dispatch(authChangeAction({user: null, isLoggedIn: false}));
       dispatch(errorAction(error.message));
     } finally {
       dispatch(loadingAction(false));
@@ -86,6 +87,7 @@ export const loginWithFacebook = () => {
         dispatch(loginAction(user));
       }
     } catch (error) {
+      dispatch(authChangeAction({user: null, isLoggedIn: false}));
       dispatch(errorAction(error.message));
     } finally {
       dispatch(loadingAction(false));
