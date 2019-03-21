@@ -6,38 +6,36 @@ import {
   View,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import firebase from './../firebase';
-import { styles, colors } from './Styles';
+import { styles } from './Styles';
+import { connect } from 'react-redux';
+import { createUser } from './../redux/actions/RegisterAction';
 
 const PASSWORD_WEAK = 'This Password is too weak!';
 const PASSWORD_STRONG = 'Strong!';
 const PASSWORD_MEDIUM = 'Medium!';
 
-export default class CreateUserScreen extends React.Component {
+class CreateUserScreen extends React.Component {
   static navigationOptions = {
     title: 'Register',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      retypePassword: '',
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+    retypePassword: '',
+  };
 
   createNewUser = async () => {
-    this.validatePassword();
-    if (this.state.error || this.state.passwordStrength === PASSWORD_WEAK) {
+    if (this.state.passwordStrength === PASSWORD_WEAK) {
       return;
     }
-    const { email, password } = this.state;
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+    const { email, password, retypePassword } = this.state;
+    this.props.createUser(email, password, retypePassword);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.user) {
       this.goToHomeScreen();
-    } catch (e) {
-      this.setState({error: e.message});
     }
   }
 
@@ -83,16 +81,14 @@ export default class CreateUserScreen extends React.Component {
     this.setState({retypePassword: text});
   }
 
-  validatePassword = () => {
-    if (this.state.retypePassword.length === 0 || this.state.password.length === 0) {
-      this.setState({error: 'Type a valid password'});
-    }
-    if (this.state.password !== this.state.retypePassword) {
-      this.setState({error: 'The passwords don\'t match'});
-    }
-  }
-
   render() {
+    if (this.props.isLoading) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
     return (
       <ScrollView style={[styles.container, styles.margin]}>
         <View>
@@ -123,8 +119,8 @@ export default class CreateUserScreen extends React.Component {
             style={[styles.textInput, styles.marginBottom]}
           />
 
-          { this.state.error ? 
-            <Text style={[styles.error, styles.marginBottom]}>{this.state.error}</Text>
+          { this.props.error ? 
+            <Text style={[styles.error, styles.marginBottom]}>{this.props.error}</Text>
           : null }
 
           <Button
@@ -138,3 +134,23 @@ export default class CreateUserScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { 
+    error: state.general.error,
+    isLoading: state.general.isLoading,
+    user: state.createUser.user,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createUser: (email, password, retypePassword) => {
+      dispatch(createUser(email, password, retypePassword));
+    }
+  }
+};
+
+const CreateUserScreenContainer = connect(mapStateToProps, mapDispatchToProps)(CreateUserScreen);
+
+export default CreateUserScreenContainer;

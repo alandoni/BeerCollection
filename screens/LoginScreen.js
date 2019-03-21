@@ -37,7 +37,6 @@ class LoginScreen extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps);
     if (newProps.user) {
       this.goToHomeScreen();
     }

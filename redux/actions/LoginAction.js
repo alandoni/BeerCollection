@@ -9,10 +9,10 @@ import {
 import firebase from './../../firebase';
 import * as Expo from 'expo';
 
-export const loginAction = (email, password) => {
+export const loginAction = (user) => {
   return {
     type: TYPE_LOGIN,
-    payload: { email, password },
+    payload: user,
   }
 };
 
@@ -47,7 +47,7 @@ export const login = (email, password) => {
     try {
       dispatch(loadingAction(true));
       const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-      dispatch(loginAction({user}))
+      dispatch(loginAction(user))
     } catch (error) {
       dispatch(errorAction(error.message));
     } finally {
@@ -55,6 +55,20 @@ export const login = (email, password) => {
     }
   };
 };
+
+export const logout = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(loadingAction(true));
+      firebase.auth().signOut();
+      dispatch(authChangeAction({user: null, isLoggedIn: false}));
+    } catch (error) {
+      dispatch(errorAction(error.message));
+    } finally {
+      dispatch(loadingAction(false));
+    }
+  };
+}
 
 export const loginWithFacebook = () => {
   return async (dispatch) => {
@@ -69,7 +83,7 @@ export const loginWithFacebook = () => {
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         const user = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
         console.log(user);
-        dispatch(loginAction({user}));
+        dispatch(loginAction(user));
       }
     } catch (error) {
       dispatch(errorAction(error.message));

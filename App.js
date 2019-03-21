@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreenContainer from './screens/LoginScreen';
-import CreateUserScreen from './screens/CreateUserScreen';
+import CreateUserScreenContainer from './screens/CreateUserScreen';
 import { Provider } from 'react-redux';
 import { colors } from './screens/Styles';
 import { store } from './redux/reducers';
@@ -11,7 +11,7 @@ const AppNavigator = createStackNavigator(
   {
     Login: LoginScreenContainer,
     Home: HomeScreen,
-    CreateUser: CreateUserScreen,
+    CreateUser: CreateUserScreenContainer,
   },
   {
     defaultNavigationOptions: {
