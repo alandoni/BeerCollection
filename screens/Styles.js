@@ -66,8 +66,18 @@ const styles = StyleSheet.create({
   navigationButton: {
     backgroundColor: colors.green,
     color: colors.yellow,
-    height: 26,
-    minWidth: 26,
+    fontSize: 24,
+    height: 32,
+    minWidth: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  navigationButtonText: {
+    fontSize: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
   listItem: {
     padding: 10,
@@ -78,11 +88,11 @@ const styles = StyleSheet.create({
   },
   listItemTitle: {
     fontSize: 20,
-    color: colors.gray,
+    color: colors.green,
   },
   listItemSubtitle: {
     fontSize: 16,
-    color: colors.lightGray,
+    color: colors.gray,
   },
 });
 

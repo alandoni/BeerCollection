@@ -10,6 +10,7 @@ import { ProgressView, NavigationButton } from './Utils';
 import { connect } from 'react-redux';
 import { showDeleteAlert } from './Utils';
 import { deleteBeerFromUser, getBeersFromUser } from './../redux/actions/BeersFromUserActions';
+import { logout, listenAuth } from './../redux/actions/LoginAction';
 
 class BeersFromUserScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -18,6 +19,9 @@ class BeersFromUserScreen extends React.Component {
       title: 'Your Beer Collection',
       headerRight: (
         <NavigationButton onPress={() => params.addNewBeer()} title="+" />
+      ),
+      headerLeft: (
+        <NavigationButton onPress={() => params.logout()} textStyle={styles.navigationButtonText} title="Logout" />
       ),
     };
   };
@@ -28,12 +32,29 @@ class BeersFromUserScreen extends React.Component {
 
   componentDidMount() {
     this.props.navigation.setParams({ addNewBeer: this.addNewBeer });
+    this.props.navigation.setParams({ logout: this.logout });
     this.props.getBeers();
+    this.props.listenAuth();
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.user == null) {
+      this.backToLogin();
+    }
+  }
+
+  logout = () => {
+    this.props.logout();
   }
 
   addNewBeer = () => {
     const { navigate } = this.props.navigation;
     navigate('Beers');
+  }
+
+  backToLogin = () => {
+    const { navigate } = this.props.navigation;
+    navigate('Login');
   }
 
   confirmDelete = (item) => {
@@ -93,6 +114,12 @@ const mapDispatchToProps = dispatch => {
     },
     deleteBeer: (id) => {
       dispatch(deleteBeerFromUser(id));
+    },
+    logout: () => {
+      dispatch(logout());
+    },
+    listenAuth: () => {
+      dispatch(listenAuth());
     }
   }
 };

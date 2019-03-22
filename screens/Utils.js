@@ -26,8 +26,8 @@ export const showDeleteAlert = (title, action, item) => {
 
 export function NavigationButton(props) {
   return (
-    <TouchableOpacity onPress={() => props.onPress()}>
-      <Text style={styles.navigationButton}>
+    <TouchableOpacity onPress={() => props.onPress()} style={styles.navigationButton}>
+      <Text style={[styles.navigationButton, props.textStyle]}>
         {props.title}
       </Text>
     </TouchableOpacity>

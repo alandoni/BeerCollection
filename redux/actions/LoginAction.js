@@ -37,10 +37,9 @@ export const listenAuth = () => {
       if (user != null) {
         const { email, uid } = user;
         const newUser = { email, userId: uid};
-        console.log(newUser);
-        dispatch(authChangeAction({newUser, isLoggedIn: true}));        
+        dispatch(authChangeAction({user: newUser, isLoggedIn: true}));        
       } else {
-        dispatch(authChangeAction({newUser, isLoggedIn: false}));
+        dispatch(authChangeAction({user: null, isLoggedIn: false}));
       }
       dispatch(loadingAction(false));
     });
@@ -51,8 +50,11 @@ export const login = (email, password) => {
   return async (dispatch) => {
     try {
       dispatch(loadingAction(true));
-      const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-      dispatch(loginAction(user))
+      const user = await firebase.auth().signInWithEmailAndPassword(email, password).user;
+      console.log(user);
+      const { userEmail, uid } = user;
+      const newUser = { email: userEmail, userId: uid};
+      dispatch(loginAction({ user: newUser, isLoggedIn: true }))
     } catch (error) {
       dispatch(authChangeAction({user: null, isLoggedIn: false}));
       dispatch(errorAction(error.message));
@@ -88,8 +90,9 @@ export const loginWithFacebook = () => {
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         const user = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-        console.log(user);
-        dispatch(loginAction(user));
+        const { email, uid } = user;
+        const newUser = { email, userId: uid};
+        dispatch(loginAction({ user: newUser, isLoggedIn: true }))
       }
     } catch (error) {
       dispatch(authChangeAction({user: null, isLoggedIn: false}));
