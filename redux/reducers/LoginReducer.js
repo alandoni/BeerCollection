@@ -7,7 +7,7 @@ export default (state = {}, action) => {
   switch (action.type) {
       case TYPE_LOGIN:
       case TYPE_AUTH_CHANGE:
-        return action.payload;
+        return { user: action.payload, error: null };
     default:
       return state;
   }

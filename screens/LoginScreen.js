@@ -10,6 +10,7 @@ import { Button } from 'react-native-elements';
 import { styles } from './Styles';
 import { connect } from 'react-redux';
 import { login, loginWithFacebook, listenAuth } from './../redux/actions/LoginAction';
+import { ProgressView } from './Utils';
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -17,27 +18,28 @@ class LoginScreen extends React.Component {
   };
 
   state = {
-    email: 'asd@asd.com',
-    password: 'asd',
+    email: 'alan.etm@gmail.com',
+    password: 'Adq@04111988',
     error: null,
     isLoading: false,
   };
 
   componentDidMount() {
+    isVisible = true;
     this.props.listenAuthChange();
   }
 
-  attemptLogin = async () => {
+  attemptLogin = () => {
     const { email, password } = this.state;
     this.props.login(email, password);
   }
 
-  loginWithFacebook = async () => {
+  loginWithFacebook = () => {
     this.props.loginWithFacebook();
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.user) {
+    if (this.props.user == null && newProps.user) {
       this.goToHomeScreen();
     }
   }
@@ -62,9 +64,7 @@ class LoginScreen extends React.Component {
 
   render() {
     if (this.props.isLoading) {
-      return (
-        <View><Text>Loading...</Text></View>
-      )
+      return <ProgressView />
     };
     return (
       <ScrollView style={[styles.container, styles.margin]}>

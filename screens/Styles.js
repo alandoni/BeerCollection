@@ -4,6 +4,7 @@ const colors = {
   red: '#f4511e',
   green: '#375133',
   okGreen: '#008000',
+  lightGreen: '#d5dfd2',
   orange: '#ff9933',
   gray: '#555555',
   lightGray: '#a0a0a0',
@@ -61,7 +62,28 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     marginBottom: 10
-  }
+  },
+  navigationButton: {
+    backgroundColor: colors.green,
+    color: colors.yellow,
+    height: 26,
+    minWidth: 26,
+  },
+  listItem: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  listItemTitle: {
+    fontSize: 20,
+    color: colors.gray,
+  },
+  listItemSubtitle: {
+    fontSize: 16,
+    color: colors.lightGray,
+  },
 });
 
 export { styles, colors };

@@ -5,7 +5,7 @@ import {
 export default (state = {}, action) => {
   switch (action.type) {
       case TYPE_CREATE_USER:
-        return action.payload;
+      return { user: action.payload, error: null };
     default:
       return state;
   }

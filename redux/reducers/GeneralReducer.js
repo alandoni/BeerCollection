@@ -5,7 +5,7 @@ export default (state = {}, action) => {
       case TYPE_ERROR:
         return { ...state, error: action.payload };
       case TYPE_LOADING:
-        return { ...state, isLoading: action.payload };
+        return { ...state, error: null, isLoading: action.payload };
     default:
       return state;
   }

@@ -1,10 +1,29 @@
-import firebase from './../../firebase';
+import {
+  TYPE_REQUEST_BEERS,
+  TYPE_SAVE_BEER,
+} from '../types';
+import { save, get } from './CrudActions';
 
+const collection = '/beers';
 
-firebase.database().ref('/beers').push(beer);
+export const saveBeerAction = (payload) => {
+  return {
+    type: TYPE_SAVE_BEER,
+    payload,
+  }
+};
 
-firebase.database().ref('/beers/' + id).remove();
+export const requestBeersAction = (payload) => {
+  return {
+    type: TYPE_REQUEST_BEERS,
+    payload,
+  }
+};
 
-firebase.database().ref('/beers/' + id).set(beer);
+export const saveBeer = (beer, id) => {
+  return save(collection, beer, id, saveBeerAction);
+}
 
-firebase.database().ref('/beers/' + id).orderByChild('value')
+export const getBeers = () => {
+  return get(collection, '', requestBeersAction);
+}

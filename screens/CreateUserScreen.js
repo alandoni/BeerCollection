@@ -9,6 +9,7 @@ import { Button } from 'react-native-elements';
 import { styles } from './Styles';
 import { connect } from 'react-redux';
 import { createUser } from './../redux/actions/RegisterAction';
+import { ProgressView } from './Utils';
 
 const PASSWORD_WEAK = 'This Password is too weak!';
 const PASSWORD_STRONG = 'Strong!';
@@ -25,7 +26,7 @@ class CreateUserScreen extends React.Component {
     retypePassword: '',
   };
 
-  createNewUser = async () => {
+  createNewUser = () => {
     if (this.state.passwordStrength === PASSWORD_WEAK) {
       return;
     }
@@ -83,11 +84,7 @@ class CreateUserScreen extends React.Component {
 
   render() {
     if (this.props.isLoading) {
-      return (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      );
+      return <ProgressView />
     }
     return (
       <ScrollView style={[styles.container, styles.margin]}>

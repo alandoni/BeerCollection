@@ -32,12 +32,17 @@ export const authChangeAction = (action) => {
 
 export const listenAuth = () => {
   return async (dispatch) => {
+    dispatch(loadingAction(true));
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        dispatch(authChangeAction({user, isLoggedIn: true}));
+        const { email, uid } = user;
+        const newUser = { email, userId: uid};
+        console.log(newUser);
+        dispatch(authChangeAction({newUser, isLoggedIn: true}));        
       } else {
-        dispatch(authChangeAction({user, isLoggedIn: false}));
+        dispatch(authChangeAction({newUser, isLoggedIn: false}));
       }
+      dispatch(loadingAction(false));
     });
   };
 }
