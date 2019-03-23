@@ -6,7 +6,7 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-import { styles } from './Styles';
+import { styles, colors } from './Styles';
 export const showDeleteAlert = (title, action, item) => {
   Alert.alert(
     'Attention!', title,
@@ -36,8 +36,8 @@ export function NavigationButton(props) {
 
 export function ProgressView() {
   return (
-    <View style={styles.fullHeight}>
-      <ActivityIndicator size="large" color="#0000ff" />
+    <View style={[styles.fullHeight, {marginTop: 40}]}>
+      <ActivityIndicator size="large" color={colors.green} />
     </View>
   );
 }

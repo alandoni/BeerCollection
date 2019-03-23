@@ -37,5 +37,5 @@ export const deleteBeerFromUser = () => {
 }
 
 export const getBeersFromUser = (userId) => {
-  return get(collection, '/user/' + userId, getBeersFromUserAction);
+  return get(collection, userId, getBeersFromUserAction);
 }

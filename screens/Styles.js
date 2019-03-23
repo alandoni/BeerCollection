@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    marginTop: 16,
+    marginLeft: 4,
   },
   listItem: {
     padding: 10,

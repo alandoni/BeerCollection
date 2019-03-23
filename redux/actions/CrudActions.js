@@ -4,7 +4,7 @@ import { loadingAction, errorAction } from './GeneralActions';
 export const save = (colletion, object, id, action) => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
+      dispatch(loadingAction());
       let result = null;
       if (id) {
         result = await firebase.database().ref(colletion + '/' + id).set(object);
@@ -12,12 +12,9 @@ export const save = (colletion, object, id, action) => {
         result = await firebase.database().ref(colletion).push(object).key;
         object.id = result;
       }
-      console.log(object);
       dispatch(action(object));
     } catch (error) {
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 }
@@ -25,13 +22,11 @@ export const save = (colletion, object, id, action) => {
 export const remove = (colletion, id, action) => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
+      dispatch(loadingAction());
       const result = await firebase.database().ref(colletion + '/' + id).remove();
       dispatch(action(result));
     } catch (error) {
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 }
@@ -39,8 +34,14 @@ export const remove = (colletion, id, action) => {
 export const get = (colletion, where, action) => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
-      const result = await firebase.database().ref(colletion).orderByChild('name').once('value');
+      dispatch(loadingAction);
+      let result;
+      if (where) {
+        result = await firebase.database().ref(colletion).orderByChild('userId').equalTo(where);
+      } else {
+        result = await firebase.database().ref(colletion).orderByChild('name').once('value');
+      }
+
       const list = [];
       result.forEach((value) => {
         var itemVal = value.val();
@@ -50,8 +51,6 @@ export const get = (colletion, where, action) => {
       dispatch(action(list));
     } catch (error) {
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 }

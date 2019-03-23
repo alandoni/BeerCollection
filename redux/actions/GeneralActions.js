@@ -3,10 +3,9 @@ import {
   TYPE_LOADING,
 } from './../types';
 
-export const loadingAction = (isLoading) => {
+export const loadingAction = () => {
   return {
     type: TYPE_LOADING,
-    payload: isLoading,
   }
 }
 

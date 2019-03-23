@@ -3,13 +3,14 @@ import {
   Text,
   FlatList,
   View,
-  TouchableHilight,
+  TouchableHighlight,
 } from 'react-native';
 import { styles } from './Styles';
 import { ProgressView, NavigationButton } from './Utils';
 import { connect } from 'react-redux';
 import { showDeleteAlert } from './Utils';
 import { deleteBeerFromUser, getBeersFromUser } from './../redux/actions/BeersFromUserActions';
+import { getBeers } from './../redux/actions/BeersActions';
 import { logout, listenAuth } from './../redux/actions/LoginAction';
 
 class BeersFromUserScreen extends React.Component {
@@ -26,19 +27,15 @@ class BeersFromUserScreen extends React.Component {
     };
   };
 
-  state = {
-    items: [],
-  };
-
   componentDidMount() {
     this.props.navigation.setParams({ addNewBeer: this.addNewBeer });
     this.props.navigation.setParams({ logout: this.logout });
-    this.props.getBeers();
     this.props.listenAuth();
+    this.props.getBeers();
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.user == null) {
+    if (newProps.isLoggedIn === false) {
       this.backToLogin();
     }
   }
@@ -54,7 +51,7 @@ class BeersFromUserScreen extends React.Component {
 
   backToLogin = () => {
     const { navigate } = this.props.navigation;
-    navigate('Login');
+    navigate('SignedOut');
   }
 
   confirmDelete = (item) => {
@@ -68,11 +65,11 @@ class BeersFromUserScreen extends React.Component {
   renderItem = ({item}) => {
     return (
       <View style={styles.listItem}>
-        <Text style={styles.listItemTitle}>{item.name}</Text>
-        <Text style={styles.listItemSubtitle}>{item.type}</Text>
-        <TouchableHilight>
+        <Text style={styles.listItemTitle}>{item.beer.name}</Text>
+        <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
+        <TouchableHighlight>
           <Text style={styles.listItemTitle}>X</Text>
-        </TouchableHilight>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -101,15 +98,17 @@ class BeersFromUserScreen extends React.Component {
 
 const mapStateToProps = state => {
   return { 
-    error: state.general.error,
-    isLoading: state.general.isLoading,
-    items: state.beersFromUsers.beersFromUsers,
+    error: state.general.error | state.beersFromUser.error,
+    isLoading: state.general.isLoading && state.beersFromUser.isLoading === undefined,
+    isLoggedIn: state.login.isLoggedIn,
+    items: state.beersFromUser.beersFromUser,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getBeers: (userId) => {
+      dispatch(getBeers());
       dispatch(getBeersFromUser(userId));
     },
     deleteBeer: (id) => {

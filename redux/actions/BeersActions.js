@@ -25,5 +25,5 @@ export const saveBeer = (beer, id) => {
 }
 
 export const getBeers = () => {
-  return get(collection, '', requestBeersAction);
+  return get(collection, null, requestBeersAction);
 }

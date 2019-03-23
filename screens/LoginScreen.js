@@ -39,18 +39,18 @@ class LoginScreen extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.user == null && newProps.user) {
+    if (newProps.isLoggedIn) {
       this.goToHomeScreen();
     }
   }
-
+w
   goToHomeScreen = () => {
     const { navigate } = this.props.navigation;
-    navigate('Home');
+    navigate('SignedIn');
   }
 
   goToCreateUserScreen = () => {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.wprops.navigation;
     navigate('CreateUser');
   }
 
@@ -111,9 +111,9 @@ class LoginScreen extends React.Component {
 
 const mapStateToProps = state => {
   return { 
-    error: state.general.error,
-    isLoading: state.general.isLoading,
-    user: state.login.user,
+    error: state.general.error ? state.general.error : state.login.error,
+    isLoading: state.general.isLoading && state.login.isLoading === undefined,
+    isLoggedIn: state.login.isLoggedIn,
   };
 };
 

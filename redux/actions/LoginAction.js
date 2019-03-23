@@ -32,7 +32,7 @@ export const authChangeAction = (action) => {
 
 export const listenAuth = () => {
   return async (dispatch) => {
-    dispatch(loadingAction(true));
+    dispatch(loadingAction());
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         const { email, uid } = user;
@@ -41,7 +41,6 @@ export const listenAuth = () => {
       } else {
         dispatch(authChangeAction({user: null, isLoggedIn: false}));
       }
-      dispatch(loadingAction(false));
     });
   };
 }
@@ -49,17 +48,14 @@ export const listenAuth = () => {
 export const login = (email, password) => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
-      const user = await firebase.auth().signInWithEmailAndPassword(email, password).user;
-      console.log(user);
-      const { userEmail, uid } = user;
+      dispatch(loadingAction());
+      const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+      const { userEmail, uid } = user.user;
       const newUser = { email: userEmail, userId: uid};
       dispatch(loginAction({ user: newUser, isLoggedIn: true }))
     } catch (error) {
       dispatch(authChangeAction({user: null, isLoggedIn: false}));
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 };
@@ -67,13 +63,11 @@ export const login = (email, password) => {
 export const logout = () => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
+      dispatch(loadingAction());
       firebase.auth().signOut();
       dispatch(authChangeAction({user: null, isLoggedIn: false}));
     } catch (error) {
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 }
@@ -81,7 +75,7 @@ export const logout = () => {
 export const loginWithFacebook = () => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction(true));
+      dispatch(loadingAction());
       const appId = Expo.Constants.manifest.extra.facebook.appId;
       const permissions = ['public_profile', 'email'];
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(appId, {permissions});
@@ -97,8 +91,6 @@ export const loginWithFacebook = () => {
     } catch (error) {
       dispatch(authChangeAction({user: null, isLoggedIn: false}));
       dispatch(errorAction(error.message));
-    } finally {
-      dispatch(loadingAction(false));
     }
   };
 }

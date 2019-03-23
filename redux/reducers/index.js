@@ -12,7 +12,7 @@ const reducers = combineReducers({
     general: GeneralReducer,
     createUser: RegisterReducer,
     beers: BeersReducer,
-    beersFromUsers: BeersFromUserReducer,
+    beersFromUser: BeersFromUserReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(thunk));

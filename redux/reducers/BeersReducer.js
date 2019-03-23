@@ -8,9 +8,19 @@ export default (state = {}, action) => {
       case TYPE_SAVE_BEER:
         const { beers } = state;
         beers.push(action.payload);
-        return {...state, error: null, beers, newBeer: action.payload};
+        return {
+          error: null,
+          beers,
+          newBeer: action.payload,
+          isLoading: false
+        };
       case TYPE_REQUEST_BEERS:
-        return {beers: action.payload, error: null, newBeer: null};
+        return {
+          beers: action.payload,
+          error: null,
+          newBeer: null,
+          isLoading: false
+        };
     default:
       return state;
   }

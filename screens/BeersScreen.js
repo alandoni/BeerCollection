@@ -37,7 +37,14 @@ class BeersScreen extends React.Component {
   }
 
   selectBeer = (item) => {
-    this.props.saveBeerFromUser(item.id, this.props.userId);
+    this.props.saveBeerFromUser(item.id, this.props.user.userId);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.newBeerFromUser) {
+      const { goBack } = this.props.navigation;
+      goBack();
+    }
   }
 
   renderItem = ({item}) => {
@@ -45,7 +52,7 @@ class BeersScreen extends React.Component {
       <TouchableHighlight
         style={styles.listItem}
         underlayColor={colors.lightGreen}
-        onPress={this.selectBeer}
+        onPress={() => this.selectBeer(item)}
       >
         <View>
           <Text style={styles.listItemTitle}>{item.name}</Text>
@@ -81,8 +88,11 @@ class BeersScreen extends React.Component {
 const mapStateToProps = state => {
   return { 
     error: state.general.error,
-    isLoading: state.general.isLoading,
+    isLoading: state.general.isLoading && state.beers.isLoading === undefined,
+    isLoggedIn: state.login.isLoggedIn,
+    user: state.login.user,
     items: state.beers.beers,
+    newBeerFromUser: state.beersFromUser.newBeerFromUser,
   };
 };
 
