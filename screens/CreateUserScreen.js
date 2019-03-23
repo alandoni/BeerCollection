@@ -31,18 +31,20 @@ class CreateUserScreen extends React.Component {
       return;
     }
     const { email, password, retypePassword } = this.state;
+    this.needProcess = true;
     this.props.createUser(email, password, retypePassword);
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.user) {
+    if (newProps.user && this.needProcess) {
+      this.needProcess = false;
       this.goToHomeScreen();
     }
   }
 
   goToHomeScreen() {
     const { navigate } = this.props.navigation;
-    navigate('HomeScreen');
+    navigate('SignedIn');
   }
 
   changeLogin = (text) => {

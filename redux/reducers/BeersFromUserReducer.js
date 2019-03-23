@@ -8,7 +8,7 @@ import {
 export default (state = {}, action) => {
   switch (action.type) {
       case TYPE_REQUEST_BEERS:
-        return {beers: action.payload};
+        return {...state, beers: action.payload};
       case TYPE_SAVE_BEER_FROM_USER:
         return addBeerToTheList(state, action);
       case TYPE_DELETE_BEER_FROM_USER:
@@ -27,11 +27,12 @@ export default (state = {}, action) => {
 }
 
 function addBeerToTheList(state, action) {
-  console.log(state);
-  let { beersFromUser } = state;
+  const beersFromUser = [];
+  state.beersFromUser.forEach((beer) => {
+    beersFromUser.push(beer);
+  });
   const newBeerFromUser = setBeers(state, [action.payload])[0];
   beersFromUser.push(newBeerFromUser);
-
   return {
     error: null,
     beersFromUser,

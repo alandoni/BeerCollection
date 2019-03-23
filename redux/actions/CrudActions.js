@@ -23,23 +23,24 @@ export const remove = (colletion, id, action) => {
   return async (dispatch) => {
     try {
       dispatch(loadingAction());
-      const result = await firebase.database().ref(colletion + '/' + id).remove();
-      dispatch(action(result));
+      await firebase.database().ref(colletion + '/' + id).remove();
+      dispatch(action(id));
     } catch (error) {
       dispatch(errorAction(error.message));
     }
   };
 }
 
-export const get = (colletion, where, action) => {
+export const get = (colletion, orderBy, equalTo, action) => {
   return async (dispatch) => {
     try {
       dispatch(loadingAction);
+      const ref = firebase.database().ref(colletion).orderByChild(orderBy);
       let result;
-      if (where) {
-        result = await firebase.database().ref(colletion).orderByChild('userId').equalTo(where);
+      if (equalTo) {
+        result = await ref.equalTo(equalTo);
       } else {
-        result = await firebase.database().ref(colletion).orderByChild('name').once('value');
+        result = await ref.once('value');
       }
 
       const list = [];

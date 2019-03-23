@@ -24,18 +24,20 @@ class CreateBeerScreen extends React.Component {
 
   createBeer = () => {
     const { name, type } = this.state;
+    this.needProcess = true;
     this.props.saveBeer(name, type);
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.beer) {
+    if (newProps.beer && this.needProcess) {
+      this.needProcess = false;
       this.goToHomeScreen();
     }
   }
 
   goToHomeScreen() {
-    const { navigate } = this.props.navigation;
-    navigate('Home');
+    const { goBack } = this.props.navigation;
+    goBack();
   }
 
   changeName = (text) => {

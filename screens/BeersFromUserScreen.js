@@ -5,13 +5,14 @@ import {
   View,
   TouchableHighlight,
 } from 'react-native';
-import { styles } from './Styles';
+import { styles, colors } from './Styles';
 import { ProgressView, NavigationButton } from './Utils';
 import { connect } from 'react-redux';
 import { showDeleteAlert } from './Utils';
 import { deleteBeerFromUser, getBeersFromUser } from './../redux/actions/BeersFromUserActions';
 import { getBeers } from './../redux/actions/BeersActions';
 import { logout, listenAuth } from './../redux/actions/LoginAction';
+import { Image } from 'react-native-elements';
 
 class BeersFromUserScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -55,7 +56,10 @@ class BeersFromUserScreen extends React.Component {
   }
 
   confirmDelete = (item) => {
-    showDeleteAlert('Are you sure you want to delete this beer from your collection?', this.deleteItem, item);
+    showDeleteAlert('Are you sure you want to delete this beer from your collection?', 
+      this.deleteItem, 
+      item,
+    );
   }
 
   deleteItem = (item) => {
@@ -64,12 +68,19 @@ class BeersFromUserScreen extends React.Component {
 
   renderItem = ({item}) => {
     return (
-      <View style={styles.listItem}>
-        <Text style={styles.listItemTitle}>{item.beer.name}</Text>
-        <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
-        <TouchableHighlight>
-          <Text style={styles.listItemTitle}>X</Text>
-        </TouchableHighlight>
+      <View style={[ styles.listItem, styles.row ]}>
+        <Image style={styles.listItemImage} />
+        <View style={[ styles.fullWidth, styles.column ]}>
+          <Text style={styles.listItemTitle}>{item.beer.name}</Text>
+          <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
+        </View>
+        <View>
+          <TouchableHighlight
+            style={[ styles.centerContent, styles.fullHeight ]}
+            onPress={() => this.confirmDelete(item)}>
+            <Text style={[ styles.listItemTitle ]}>X</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -98,8 +109,8 @@ class BeersFromUserScreen extends React.Component {
 
 const mapStateToProps = state => {
   return { 
-    error: state.general.error | state.beersFromUser.error,
-    isLoading: state.general.isLoading && state.beersFromUser.isLoading === undefined,
+    error: state.general.error,
+    isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
     items: state.beersFromUser.beersFromUser,
   };

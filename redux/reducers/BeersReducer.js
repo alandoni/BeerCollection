@@ -7,10 +7,14 @@ export default (state = {}, action) => {
   switch (action.type) {
       case TYPE_SAVE_BEER:
         const { beers } = state;
-        beers.push(action.payload);
+        const newBeers = []
+        beers.forEach((beer) => {
+          newBeers.push(beer);
+        });
+        newBeers.push(action.payload);
         return {
           error: null,
-          beers,
+          beers: newBeers,
           newBeer: action.payload,
           isLoading: false
         };

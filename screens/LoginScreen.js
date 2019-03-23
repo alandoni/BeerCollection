@@ -111,8 +111,8 @@ w
 
 const mapStateToProps = state => {
   return { 
-    error: state.general.error ? state.general.error : state.login.error,
-    isLoading: state.general.isLoading && state.login.isLoading === undefined,
+    error: state.general.error,
+    isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
   };
 };

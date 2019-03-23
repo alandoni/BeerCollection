@@ -25,6 +25,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  fullWidth: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  row: {
+    flexDirection: 'row',
+  },
   textInput: {
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
@@ -80,6 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 16,
     marginLeft: 4,
+    height: 26,
   },
   listItem: {
     padding: 10,
@@ -95,6 +106,17 @@ const styles = StyleSheet.create({
   listItemSubtitle: {
     fontSize: 16,
     color: colors.gray,
+  },
+  listItemImage: {
+    marginTop: 3,
+    marginRight: 5,
+    width: 40,
+    height: 40,
+    backgroundColor: colors.red
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

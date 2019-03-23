@@ -37,11 +37,13 @@ class BeersScreen extends React.Component {
   }
 
   selectBeer = (item) => {
+    this.needProcess = true;
     this.props.saveBeerFromUser(item.id, this.props.user.userId);
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.newBeerFromUser) {
+    if (newProps.newBeerFromUser && this.needProcess) {
+      this.needProcess = false;
       const { goBack } = this.props.navigation;
       goBack();
     }

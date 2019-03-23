@@ -32,10 +32,10 @@ export const saveBeerFromUser = (beer, id) => {
   return save(collection, beer, id, saveBeerFromUserAction);
 }
 
-export const deleteBeerFromUser = () => {
+export const deleteBeerFromUser = (id) => {
   return remove(collection, id, deleteBeerFromUserAction);
 }
 
 export const getBeersFromUser = (userId) => {
-  return get(collection, userId, getBeersFromUserAction);
+  return get(collection, 'userId', userId, getBeersFromUserAction);
 }
