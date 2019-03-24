@@ -5,10 +5,13 @@ import {
   Text,
   View,
   TouchableOpacity,
-  SafeAreaView,
+  Dimensions,
 } from 'react-native';
-import { styles } from './Styles';
+import {
+  SafeAreaView,
+} from 'react-navigation';
 import { Image } from 'react-native-elements';
+import { styles } from './Styles';
 
 export default class CameraScreen extends React.Component {
 
@@ -50,7 +53,7 @@ export default class CameraScreen extends React.Component {
       const options = { quality: 1, base64: true };
       const data = await this.camera.takePictureAsync(options);
       this.setState({
-        picture: data
+        picture: 'data:image/jpg;base64,' + data.base64
       });
     }
   }
@@ -68,62 +71,77 @@ export default class CameraScreen extends React.Component {
     }
   }
 
-  render() {
-    return (
-      <View style={styles.container} >
-        { this.state.picture ?
+  renderCamera() {
+    if (this.state.picture) {
+      const dimensions = Dimensions.get('window');
+      const imageHeight = dimensions.height;
+      const imageWidth = dimensions.width;
+      return (
           <Image
-            style = {styles.camera}
-            source={{ data: this.state.picture }}
+            style = {[ styles.camera, { height: imageHeight, width: imageWidth } ]}
+            source={{ uri: this.state.picture }}
           />
-        :
+        );
+    } else {
+
+      return (
           <Camera
             ref={camera => { this.camera = camera }}
-            style = {styles.camera}
+            style = {[styles.camera]}
             type={this.state.type}
             autoFocus={Camera.Constants.AutoFocus.on}
             flashMode={this.state.flash}
+            ratio={'16:9'}
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera'}
           />
-        }
-        <SafeAreaView>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <View style={[ styles.container, styles.backgroundBlack ]}>
+        { this.renderCamera() }
+        <SafeAreaView style={[ styles.fullHeight ]}>
           <View style={styles.simulateNavigationBar}>
             <TouchableOpacity 
               onPress={this.cancel}
               style={styles.simulateNavigationBarButton}
             >
-              <Text style={styles.buttonTextWhite}> CANCEL </Text>
+              <Text style={styles.buttonTextWhite}>CANCEL</Text>
             </TouchableOpacity>
             { this.state.picture ?
             <TouchableOpacity
               onPress={this.save}
               style={[styles.simulateNavigationBarButton]}
             >
-              <Text style={[styles.buttonTextWhite, styles.textRight]}> SAVE </Text>
+              <Text style={[styles.buttonTextWhite, styles.textRight]}>SAVE</Text>
             </TouchableOpacity>
             : null }
           </View>
           { !this.state.picture ?
             <View style={styles.cameraButtonsContainer}>
-              <TouchableOpacity
-                onPress={this.changeFlash}
-                style={[ styles.cameraButton, styles.centerContent ]}
-              >
-                <Text style={styles.buttonTextWhite}> FLASH </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.takePicture}
-                style={[ styles.cameraButton, styles.centerContent ]}
-              >
-                <Text style={styles.buttonTextWhite}> SNAP </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.changeType}
-                style={[ styles.cameraButton, styles.centerContent ]}
-              >
-                <Text style={styles.buttonTextWhite}> CHANGE CAMERA </Text>
-              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+                <TouchableOpacity
+                  onPress={this.changeFlash}
+                  style={[ styles.cameraButton, styles.centerContent ]}
+                >
+                  <Text style={styles.buttonTextWhite}>FLASH</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.takePicture}
+                  style={[ styles.cameraButton, styles.centerContent ]}
+                >
+                  <Text style={styles.buttonTextWhite}>SNAP</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.changeType}
+                  style={[ styles.cameraButton, styles.centerContent ]}
+                >
+                  <Text style={styles.buttonTextWhite}>CHANGE CAMERA</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           : null }
         </SafeAreaView>

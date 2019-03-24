@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const colors = {
   red: '#f4511e',
@@ -129,28 +129,29 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     position: 'absolute',
-    backgroundColor: colors.yellow,
   },
   backgroundBlack: {
     backgroundColor: colors.black,
   },
   simulateNavigationBar: {
-    position: 'absolute',
+    position: 'relative',
     flexDirection: 'row',
     minHeight: 32,
-    marginTop: 20,
+    marginTop: Platform.OS === 'android' ? 30 : 0,
   },
   simulateNavigationBarButton: {
+    flex: 1,
     paddingVertical: 8,
     paddingHorizontal: 14,
   },
-  cameraButtons: {
+  cameraButton: {
     flex: 1,
   },
   cameraButtonsContainer: {
-    position: 'absolute',
-    flexDirection: 'row',
-    height: 60,
+    flex: 1,
+    flexDirection: `column`,
+    justifyContent: 'flex-end',
+    marginBottom: 30,
   }
 });
 
