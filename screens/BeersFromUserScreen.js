@@ -4,6 +4,7 @@ import {
   FlatList,
   View,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { styles, colors } from './Styles';
 import { ProgressView, NavigationButton } from './Utils';
@@ -56,6 +57,15 @@ class BeersFromUserScreen extends React.Component {
     navigate('SignedOut');
   }
 
+  takePicture = (item) => {
+    this.goToCamera();
+  }
+
+  goToCamera = () => {
+    const { navigate } = this.props.navigation;
+    navigate('Camera');
+  }
+
   confirmDelete = (item) => {
     showDeleteAlert('Are you sure you want to delete this beer from your collection?', 
       this.deleteItem, 
@@ -69,24 +79,26 @@ class BeersFromUserScreen extends React.Component {
 
   renderItem = ({item}) => {
     return (
-      <View style={[ styles.listItem, styles.row ]}>
-        <Image 
-          style={styles.listItemImage}
-          source={require('../assets/images/beer_mug_preview.png')}
-          PlaceholderContent={<ActivityIndicator />}
-        />
-        <View style={[ styles.fullWidth, styles.column ]}>
-          <Text style={styles.listItemTitle}>{item.beer.name}</Text>
-          <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
+      <TouchableHighlight onPress={() => { this.takePicture(item) }}>
+        <View style={[ styles.listItem, styles.row ]}>
+          <Image 
+            style={styles.listItemImage}
+            source={require('../assets/images/beer_mug_preview.png')}
+            PlaceholderContent={<ActivityIndicator />}
+          />
+          <View style={[ styles.fullWidth, styles.column ]}>
+            <Text style={styles.listItemTitle}>{item.beer.name}</Text>
+            <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={[ styles.centerContent, styles.fullHeight ]}
+              onPress={() => this.confirmDelete(item)}>
+              <Text style={[ styles.listItemTitle ]}>X</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <TouchableHighlight
-            style={[ styles.centerContent, styles.fullHeight ]}
-            onPress={() => this.confirmDelete(item)}>
-            <Text style={[ styles.listItemTitle ]}>X</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
+      </TouchableHighlight>
     );
   }
 

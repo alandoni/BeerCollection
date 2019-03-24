@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  textRight: {
+    textAlign: 'right',
+  },
   textInput: {
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
@@ -45,6 +48,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.yellow,
+  },
+  buttonTextWhite: {
+    color: colors.white,
   },
   error: {
     marginLeft: 10,
@@ -117,6 +123,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  camera: {
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    backgroundColor: colors.yellow,
+  },
+  backgroundBlack: {
+    backgroundColor: colors.black,
+  },
+  simulateNavigationBar: {
+    position: 'absolute',
+    flexDirection: 'row',
+    minHeight: 32,
+    marginTop: 20,
+  },
+  simulateNavigationBarButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+  },
+  cameraButtons: {
+    flex: 1,
+  },
+  cameraButtonsContainer: {
+    position: 'absolute',
+    flexDirection: 'row',
+    height: 60,
+  }
 });
 
 export { styles, colors };

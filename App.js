@@ -1,11 +1,15 @@
 import React from 'react';
-import firebase from './firebase';
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator,
+} from 'react-navigation';
 import BeersFromUserScreenContainer from './screens/BeersFromUserScreen';
 import LoginScreenContainer from './screens/LoginScreen';
 import CreateUserScreenContainer from './screens/CreateUserScreen';
 import BeersScreenContainer from './screens/BeersScreen';
 import CreateBeerScreenContainer from './screens/CreateBeerScreen';
+import CameraScreen from './screens/CameraScreen';
 import { Provider } from 'react-redux';
 import { colors } from './screens/Styles';
 import { store } from './redux/reducers';
@@ -28,6 +32,7 @@ const SignedInStack = createStackNavigator({
   Home: BeersFromUserScreenContainer,
   Beers: BeersScreenContainer,
   CreateBeer: CreateBeerScreenContainer,
+  Camera: CameraScreen,
 }, { defaultNavigationOptions }
 );
 
@@ -36,7 +41,6 @@ const SignedOutStack = createStackNavigator({
   CreateUser: CreateUserScreenContainer,
 }, { defaultNavigationOptions }
 );
-
 
 const navigator = createSwitchNavigator({
   SignedIn: SignedInStack,
