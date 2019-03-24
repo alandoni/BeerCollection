@@ -5,14 +5,12 @@ import RegisterReducer from './CreateUserReducer';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import BeersReducer from './BeersReducer';
-import BeersFromUserReducer from './BeersFromUserReducer';
 
 const reducers = combineReducers({
     login: LoginReducer,
     general: GeneralReducer,
     createUser: RegisterReducer,
     beers: BeersReducer,
-    beersFromUser: BeersFromUserReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(thunk));

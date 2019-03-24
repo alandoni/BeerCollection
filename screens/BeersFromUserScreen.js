@@ -13,6 +13,7 @@ import { deleteBeerFromUser, getBeersFromUser } from './../redux/actions/BeersFr
 import { getBeers } from './../redux/actions/BeersActions';
 import { logout, listenAuth } from './../redux/actions/LoginAction';
 import { Image } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native';
 
 class BeersFromUserScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -69,7 +70,11 @@ class BeersFromUserScreen extends React.Component {
   renderItem = ({item}) => {
     return (
       <View style={[ styles.listItem, styles.row ]}>
-        <Image style={styles.listItemImage} />
+        <Image 
+          style={styles.listItemImage}
+          source={require('../assets/images/beer_mug_preview.png')}
+          PlaceholderContent={<ActivityIndicator />}
+        />
         <View style={[ styles.fullWidth, styles.column ]}>
           <Text style={styles.listItemTitle}>{item.beer.name}</Text>
           <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
@@ -112,7 +117,7 @@ const mapStateToProps = state => {
     error: state.general.error,
     isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
-    items: state.beersFromUser.beersFromUser,
+    items: state.beers.beersFromUser,
   };
 };
 

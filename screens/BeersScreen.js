@@ -94,7 +94,7 @@ const mapStateToProps = state => {
     isLoggedIn: state.login.isLoggedIn,
     user: state.login.user,
     items: state.beers.beers,
-    newBeerFromUser: state.beersFromUser.newBeerFromUser,
+    newBeerFromUser: state.beers.newBeerFromUser,
   };
 };
 

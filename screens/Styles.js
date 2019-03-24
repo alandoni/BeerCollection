@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
     width: 40,
     height: 40,
-    backgroundColor: colors.red
   },
   centerContent: {
     justifyContent: 'center',
