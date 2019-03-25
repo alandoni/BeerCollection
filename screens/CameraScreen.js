@@ -33,11 +33,15 @@ export default class CameraScreen extends React.Component {
   }
 
   changeFlash = () => {
-    if (this.state.flash === Camera.Constants.FlashMode.off) {
-      this.setState({flash: Camera.Constants.FlashMode.on})
-    } else {
+    if (this.hasFlash()) {
       this.setState({flash: Camera.Constants.FlashMode.off})
+    } else {
+      this.setState({flash: Camera.Constants.FlashMode.on})
     }
+  }
+
+  hasFlash = () => {
+    return this.state.flash === Camera.Constants.FlashMode.on
   }
 
   changeType = () => {
@@ -127,19 +131,21 @@ export default class CameraScreen extends React.Component {
                   onPress={this.changeFlash}
                   style={[ styles.cameraButton, styles.centerContent ]}
                 >
-                  <Text style={styles.buttonTextWhite}>FLASH</Text>
+                  { this.hasFlash() ? 
+                    <Image source={require('../assets/images/flash.png')} style={styles.cameraImage}/>
+                  : <Image source={require('../assets/images/no-flash.png')} style={styles.cameraImage}/> }
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.takePicture}
                   style={[ styles.cameraButton, styles.centerContent ]}
                 >
-                  <Text style={styles.buttonTextWhite}>SNAP</Text>
+                  <Image source={require('../assets/images/take-pic.png')} style={styles.cameraTakePicture}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.changeType}
                   style={[ styles.cameraButton, styles.centerContent ]}
                 >
-                  <Text style={styles.buttonTextWhite}>CHANGE CAMERA</Text>
+                  <Image source={require('../assets/images/rotate-cam.png')} style={styles.cameraImage}/>
                 </TouchableOpacity>
               </View>
             </View>

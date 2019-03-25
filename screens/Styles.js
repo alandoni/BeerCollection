@@ -152,6 +152,14 @@ const styles = StyleSheet.create({
     flexDirection: `column`,
     justifyContent: 'flex-end',
     marginBottom: 30,
+  },
+  cameraImage: {
+    width: 50,
+    height: 50,
+  },
+  cameraTakePicture: {
+    width: 100,
+    height: 100,
   }
 });
 
