@@ -38,6 +38,11 @@ const styles = StyleSheet.create({
   textRight: {
     textAlign: 'right',
   },
+  loginImage: {
+    width: 220,
+    height: 180,
+    marginVertical: 20,
+  },
   textInput: {
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,

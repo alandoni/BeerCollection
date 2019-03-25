@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { styles } from './Styles';
@@ -69,6 +70,12 @@ w
     return (
       <ScrollView style={[styles.container, styles.margin]}>
         <View>
+          <View style={styles.centerContent}>
+            <Image
+              source={require('../assets/images/beer.jpg')}
+              style={styles.loginImage}
+            />
+          </View>
           <Text>Login:</Text>
           <TextInput 
             onChangeText={this.changeLogin} 
