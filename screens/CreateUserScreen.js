@@ -103,6 +103,7 @@ class CreateUserScreen extends React.Component {
             onChangeText={this.changePassword}
             value={this.state.password}
             style={[styles.textInput, styles.marginBottom]}
+            secureTextEntry={true}
           />
 
           { this.state.passwordStrength ?
@@ -116,6 +117,7 @@ class CreateUserScreen extends React.Component {
             onChangeText={this.changeRetypePassword}
             value={this.state.retypePassword}
             style={[styles.textInput, styles.marginBottom]}
+            secureTextEntry={true}
           />
 
           { this.props.error ? 

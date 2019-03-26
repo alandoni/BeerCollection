@@ -9,7 +9,7 @@ import {
 
   import firebase from './../../firebase';
 
-  export const creteUserAction = (user) => {
+  export const createUserAction = (user) => {
     return {
       type: TYPE_CREATE_USER,
       payload: user,
@@ -19,25 +19,24 @@ import {
   export const createUser = (email, password, retypePassword) => {
     return async (dispatch) => {
       try {
-        dispatch(loadingAction(true));
+        dispatch(loadingAction());
 
         if (retypePassword.length === 0 || password.length === 0) {
+          console.log('Type a valid password');
           dispatch(errorAction('Type a valid password'));
-          dispatch(loadingAction(false));
           return;
         }
         if (password !== retypePassword) {
+          console.log('The passwords don\'t match');
           dispatch(errorAction('The passwords don\'t match'));
-          dispatch(loadingAction(false));
           return;
         }
 
-        const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        dispatch(creteUserAction(user))
+        const user = await firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password);
+        console.log(user);
+        dispatch(createUserAction(user))
       } catch (error) {
         dispatch(errorAction(error.message));
-      } finally {
-        dispatch(loadingAction(false));
       }
     };
   };

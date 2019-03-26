@@ -51,7 +51,7 @@ w
   }
 
   goToCreateUserScreen = () => {
-    const { navigate } = this.wprops.navigation;
+    const { navigate } = this.props.navigation;
     navigate('CreateUser');
   }
 
@@ -88,6 +88,7 @@ w
             onChangeText={this.changePassword}
             value={this.state.password}
             style={[styles.textInput, styles.marginBottom]}
+            secureTextEntry={true}
           />
 
           { this.props.error ? 
