@@ -143,7 +143,7 @@ const mapStateToProps = state => {
     error: state.general.error,
     isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
-    userId: state.login.user.userId,
+    userId: state.login.user ? state.login.user.userId : null,
     items: state.beers.beersFromUser,
   };
 };
