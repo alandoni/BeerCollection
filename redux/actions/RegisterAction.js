@@ -22,19 +22,16 @@ import {
         dispatch(loadingAction());
 
         if (retypePassword.length === 0 || password.length === 0) {
-          console.log('Type a valid password');
           dispatch(errorAction('Type a valid password'));
           return;
         }
         if (password !== retypePassword) {
-          console.log('The passwords don\'t match');
           dispatch(errorAction('The passwords don\'t match'));
           return;
         }
-
         const user = await firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password);
-        console.log(user);
-        dispatch(createUserAction(user))
+        const newUser = { email: user.user.email, userId: user.uid };
+        dispatch(createUserAction(newUser));
       } catch (error) {
         dispatch(errorAction(error.message));
       }

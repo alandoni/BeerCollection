@@ -39,7 +39,7 @@ export const remove = (colletion, id, action) => {
 export const get = (colletion, orderBy, equalTo, action) => {
   return async (dispatch) => {
     try {
-      dispatch(loadingAction);
+      dispatch(loadingAction());
       const ref = firebase.database().ref(colletion).orderByChild(orderBy);
       let result;
       if (equalTo) {
