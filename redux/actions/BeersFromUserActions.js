@@ -5,7 +5,7 @@ import {
 } from '../types';
 import { save, remove, get } from './CrudActions';
 
-const collection = '/user_beers';
+export const collection = '/user_beers';
 
 export const saveBeerFromUserAction = (payload) => {
   return {

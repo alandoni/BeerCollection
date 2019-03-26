@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     color: colors.gray,
   },
   listItemImage: {
-    marginTop: 3,
+    marginTop: 5,
     marginRight: 5,
     width: 40,
     height: 40,

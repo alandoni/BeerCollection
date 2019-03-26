@@ -19,8 +19,8 @@ class LoginScreen extends React.Component {
   };
 
   state = {
-    email: 'alan.etm@gmail.com',
-    password: 'Adq@04111988',
+    email: '',
+    password: '',
     error: null,
     isLoading: false,
   };

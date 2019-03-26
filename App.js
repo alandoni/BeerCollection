@@ -9,7 +9,7 @@ import LoginScreenContainer from './screens/LoginScreen';
 import CreateUserScreenContainer from './screens/CreateUserScreen';
 import BeersScreenContainer from './screens/BeersScreen';
 import CreateBeerScreenContainer from './screens/CreateBeerScreen';
-import CameraScreen from './screens/CameraScreen';
+import CameraScreenContainer from './screens/CameraScreen';
 import { Provider } from 'react-redux';
 import { colors } from './screens/Styles';
 import { store } from './redux/reducers';
@@ -32,7 +32,7 @@ const SignedInStack = createStackNavigator({
   Home: BeersFromUserScreenContainer,
   Beers: BeersScreenContainer,
   CreateBeer: CreateBeerScreenContainer,
-  Camera: CameraScreen,
+  Camera: CameraScreenContainer,
 }, { defaultNavigationOptions }
 );
 

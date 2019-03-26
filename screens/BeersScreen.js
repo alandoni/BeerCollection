@@ -38,20 +38,19 @@ class BeersScreen extends React.Component {
 
   selectBeer = (item) => {
     this.needProcess = true;
-    //this.props.saveBeerFromUser(item.id, this.props.user.userId);
-    this.goToCamera();
+    this.props.saveBeerFromUser(item.id, this.props.user.userId);
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.newBeerFromUser && this.needProcess) {
       this.needProcess = false;
-      this.goToCamera();
+      this.goToCamera(newProps.newBeerFromUser.id);
     }
   }
 
-  goToCamera = () => {
+  goToCamera = (id) => {
     const { navigate } = this.props.navigation;
-    navigate('Camera');
+    navigate('Camera', {id});
   }
 
   renderItem = ({item}) => {
@@ -95,7 +94,7 @@ class BeersScreen extends React.Component {
 const mapStateToProps = state => {
   return { 
     error: state.general.error,
-    isLoading: state.general.isLoading && state.beers.isLoading === undefined,
+    isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
     user: state.login.user,
     items: state.beers.beers,

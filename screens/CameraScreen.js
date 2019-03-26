@@ -12,9 +12,10 @@ import {
 } from 'react-navigation';
 import { Image } from 'react-native-elements';
 import { styles } from './Styles';
+import { uploadPicture } from '../redux/actions/PictureActions';
+import { connect } from 'react-redux';
 
-export default class CameraScreen extends React.Component {
-
+class CameraScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
@@ -30,6 +31,10 @@ export default class CameraScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  componentDidMount() {
+    this.beerFromUserId = this.props.navigation.getParam('id');
   }
 
   changeFlash = () => {
@@ -63,7 +68,20 @@ export default class CameraScreen extends React.Component {
   }
 
   save = () => {
+    this.needProccess = true;
+    this.props.savePicture(this.state.picture, this.beerFromUserId)
+  }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.newPicture && this.needProccess) {
+      this.needProccess = false;
+      this.goToHomeScreen();
+    }
+  }
+
+  goToHomeScreen = () => {
+    const { popToTop } = this.props.navigation;
+    popToTop();
   }
   
   cancel = () => {
@@ -155,3 +173,26 @@ export default class CameraScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { 
+    error: state.general.error,
+    isLoading: state.general.isLoading,
+    newPicture: state.beers.newPicture,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getBeers: () => {
+      dispatch(getBeers());
+    },
+    savePicture: (base64, beerFromUserId) => {
+      dispatch(uploadPicture(base64, beerFromUserId));
+    }
+  }
+};
+
+const CameraScreenContainer = connect(mapStateToProps, mapDispatchToProps)(CameraScreen);
+
+export default CameraScreenContainer;

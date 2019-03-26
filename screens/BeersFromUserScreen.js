@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import { styles, colors } from './Styles';
+import { styles } from './Styles';
 import { ProgressView, NavigationButton } from './Utils';
 import { connect } from 'react-redux';
 import { showDeleteAlert } from './Utils';
@@ -15,6 +15,7 @@ import { getBeers } from './../redux/actions/BeersActions';
 import { logout, listenAuth } from './../redux/actions/LoginAction';
 import { Image } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
+import { requestPicture } from '../redux/actions/PictureActions';
 
 class BeersFromUserScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -34,12 +35,17 @@ class BeersFromUserScreen extends React.Component {
     this.props.navigation.setParams({ addNewBeer: this.addNewBeer });
     this.props.navigation.setParams({ logout: this.logout });
     this.props.listenAuth();
-    this.props.getBeers();
+    this.props.getBeers(this.props.userId);
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.isLoggedIn === false) {
       this.backToLogin();
+    }
+    if (newProps.items && newProps.items.length > 0) {
+      newProps.items.forEach((item) => {
+        this.props.getPicture(item.id);
+      });
     }
   }
 
@@ -58,12 +64,12 @@ class BeersFromUserScreen extends React.Component {
   }
 
   takePicture = (item) => {
-    this.goToCamera();
+    this.goToCamera(item.id);
   }
 
-  goToCamera = () => {
+  goToCamera = (id) => {
     const { navigate } = this.props.navigation;
-    navigate('Camera');
+    navigate('Camera', {id});
   }
 
   confirmDelete = (item) => {
@@ -81,11 +87,19 @@ class BeersFromUserScreen extends React.Component {
     return (
       <TouchableHighlight onPress={() => { this.takePicture(item) }}>
         <View style={[ styles.listItem, styles.row ]}>
-          <Image 
-            style={styles.listItemImage}
-            source={require('../assets/images/beer_mug_preview.png')}
-            PlaceholderContent={<ActivityIndicator />}
-          />
+          { item.picture ?
+            <Image 
+              style={styles.listItemImage}
+              source={{uri: item.picture}}
+              PlaceholderContent={<ActivityIndicator />}
+            />
+          :
+            <Image 
+              style={styles.listItemImage}
+              source={require('../assets/images/beer_mug_preview.png')}
+              PlaceholderContent={<ActivityIndicator />}
+            />
+          }
           <View style={[ styles.fullWidth, styles.column ]}>
             <Text style={styles.listItemTitle}>{item.beer.name}</Text>
             <Text style={styles.listItemSubtitle}>{item.beer.type}</Text>
@@ -129,6 +143,7 @@ const mapStateToProps = state => {
     error: state.general.error,
     isLoading: state.general.isLoading,
     isLoggedIn: state.login.isLoggedIn,
+    userId: state.login.user.userId,
     items: state.beers.beersFromUser,
   };
 };
@@ -138,6 +153,9 @@ const mapDispatchToProps = dispatch => {
     getBeers: (userId) => {
       dispatch(getBeers());
       dispatch(getBeersFromUser(userId));
+    },
+    getPicture: (beerFromUserId) => {
+      dispatch(requestPicture(beerFromUserId));
     },
     deleteBeer: (id) => {
       dispatch(deleteBeerFromUser(id));

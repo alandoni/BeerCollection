@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/beer_mug_preview.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -27,13 +27,13 @@
     },
     "extra": {
       "firebase": {
-        "apiKey": "AIzaSyDjBVqRbgxR2xi7GqOJgcRYHcQIsXZSYos",
-        "authDomain": "test-firebase.firebaseapp.com",
-        "databaseURL": "https://test-firebase-66b28.firebaseio.com",
-        "storageBucket": "test-firebase-66b28.appspot.com"
+        "apiKey": "",
+        "authDomain": "",
+        "databaseURL": "",
+        "storageBucket": ""
       },
       "facebook": {
-        "appId": "628582614269508"
+        "appId": ""
       }
     }
   }

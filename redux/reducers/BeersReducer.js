@@ -4,6 +4,8 @@ import {
   TYPE_SAVE_BEER_FROM_USER,
   TYPE_REQUEST_BEERS_FROM_USER,
   TYPE_DELETE_BEER_FROM_USER,
+  TYPE_REQUEST_PICTURE,
+  TYPE_UPLOAD_PICTURE,
 } from '../types';
 
 export default (state = {}, action) => {
@@ -38,9 +40,29 @@ export default (state = {}, action) => {
           newBeerFromUser: null,
           isLoading: false
         };
+      case TYPE_REQUEST_PICTURE:
+        const newList = setPictureOfBeerFromUser(state, action);
+        return {...state, beersFromUser: newList};
+      case TYPE_UPLOAD_PICTURE:
+        return {...state, isLoading: false, newPicture: action.payload, error: null};
     default:
       return state;
   }
+}
+
+function setPictureOfBeerFromUser(state, action) {
+  const { beersFromUser } = state;
+  if (!action.payload || action.payload.length == 0) {
+    return beersFromUser;
+  }
+  const newList = [];
+  beersFromUser.forEach((beer) => {
+    if (beer.id === action.payload[0].beerFromUserId) {
+      beer.picture = action.payload[0].base64;
+    }
+    newList.push(beer);
+  });
+  return newList;
 }
 
 function addBeerToList(state, action) {
