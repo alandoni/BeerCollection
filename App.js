@@ -10,6 +10,7 @@ import CreateUserScreenContainer from './screens/CreateUserScreen';
 import BeersScreenContainer from './screens/BeersScreen';
 import CreateBeerScreenContainer from './screens/CreateBeerScreen';
 import CameraScreenContainer from './screens/CameraScreen';
+import BeerScreen from './screens/BeerScreen';
 import { Provider } from 'react-redux';
 import { colors } from './screens/Styles';
 import { store } from './redux/reducers';
@@ -33,6 +34,7 @@ const SignedInStack = createStackNavigator({
   Beers: BeersScreenContainer,
   CreateBeer: CreateBeerScreenContainer,
   Camera: CameraScreenContainer,
+  Beer: BeerScreen,
 }, { defaultNavigationOptions }
 );
 

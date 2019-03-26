@@ -14,6 +14,7 @@ import { Image } from 'react-native-elements';
 import { styles } from './Styles';
 import { uploadPicture } from '../redux/actions/PictureActions';
 import { connect } from 'react-redux';
+import { ProgressView } from './Utils';
 
 class CameraScreen extends React.Component {
   state = {
@@ -59,10 +60,11 @@ class CameraScreen extends React.Component {
 
   takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 1, base64: true };
+      const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       this.setState({
-        picture: 'data:image/jpg;base64,' + data.base64
+        picture: 'data:image/jpg;base64,' + data.base64,
+        isLoading: false,
       });
     }
   }
@@ -100,7 +102,7 @@ class CameraScreen extends React.Component {
       const imageWidth = dimensions.width;
       return (
           <Image
-            style = {[ styles.camera, { height: imageHeight, width: imageWidth } ]}
+            style={[ styles.camera, { height: imageHeight, width: imageWidth } ]}
             source={{ uri: this.state.picture }}
           />
         );
@@ -109,7 +111,7 @@ class CameraScreen extends React.Component {
       return (
           <Camera
             ref={camera => { this.camera = camera }}
-            style = {[styles.camera]}
+            style={[styles.camera]}
             type={this.state.type}
             autoFocus={Camera.Constants.AutoFocus.on}
             flashMode={this.state.flash}
@@ -122,6 +124,9 @@ class CameraScreen extends React.Component {
   }
 
   render() {
+    if (this.props.isLoading || this.state.isLoading) {
+      return <ProgressView />
+    }
     return (
       <View style={[ styles.container, styles.backgroundBlack ]}>
         { this.renderCamera() }

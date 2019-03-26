@@ -42,11 +42,17 @@ class BeersFromUserScreen extends React.Component {
     if (newProps.isLoggedIn === false) {
       this.backToLogin();
     }
-    if (newProps.items && newProps.items.length > 0) {
-      newProps.items.forEach((item) => {
-        this.props.getPicture(item.id);
-      });
+    if (!newProps.items || newProps.items.length === 0) {
+      return;
     }
+    newProps.items.forEach((item, index) => {
+      if ((!item.picture && !item.alreadyRequested) || 
+          (this.props.items && this.props.items.length > 0 &&
+           item.picture !== this.props.items[index].picture)) {
+        item.alreadyRequested = true;
+        this.props.getPicture(item.id);
+      }
+    });
   }
 
   logout = () => {
@@ -63,13 +69,9 @@ class BeersFromUserScreen extends React.Component {
     navigate('SignedOut');
   }
 
-  takePicture = (item) => {
-    this.goToCamera(item.id);
-  }
-
-  goToCamera = (id) => {
+  goToDetail = (beerFromUser) => {
     const { navigate } = this.props.navigation;
-    navigate('Camera', {id});
+    navigate('Beer', {beerFromUser});
   }
 
   confirmDelete = (item) => {
@@ -85,7 +87,7 @@ class BeersFromUserScreen extends React.Component {
 
   renderItem = ({item}) => {
     return (
-      <TouchableHighlight onPress={() => { this.takePicture(item) }}>
+      <TouchableHighlight onPress={() => { this.goToDetail(item) }}>
         <View style={[ styles.listItem, styles.row ]}>
           { item.picture ?
             <Image 

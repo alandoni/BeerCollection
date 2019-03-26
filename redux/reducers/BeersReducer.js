@@ -57,8 +57,9 @@ function setPictureOfBeerFromUser(state, action) {
   }
   const newList = [];
   beersFromUser.forEach((beer) => {
-    if (beer.id === action.payload[0].beerFromUserId) {
-      beer.picture = action.payload[0].base64;
+    const payload = action.payload[action.payload.length - 1];
+    if (beer.id === payload.beerFromUserId) {
+      beer.picture = payload.base64;
     }
     newList.push(beer);
   });

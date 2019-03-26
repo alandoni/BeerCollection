@@ -1,4 +1,8 @@
-import { TYPE_ERROR, TYPE_LOADING } from '../types';
+import { 
+  TYPE_ERROR,
+  TYPE_LOADING,
+  TYPE_AUTH_CHANGE
+} from '../types';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -6,14 +10,17 @@ export default (state = {}, action) => {
         return {
           ...state,
           error: action.payload,
-          isLoading: false
+          isLoading: false,
         };
       case TYPE_LOADING:
         return { ...state,
           error: null,
-          isLoading: true
+          isLoading: true,
         };
+      case TYPE_AUTH_CHANGE:
+        return state;
     default:
-      return { ...state, error: null, isLoading: false };
+        console.log(action.type);
+      return {...state, error: null, isLoading: false};
   }
 }

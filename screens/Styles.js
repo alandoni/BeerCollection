@@ -29,6 +29,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
+  width100: {
+    width: '100%',
+  },
+  height100: {
+    height: '100%',
+  },
   column: {
     flexDirection: 'column',
   },
